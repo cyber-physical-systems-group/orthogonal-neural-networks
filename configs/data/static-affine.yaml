@@ -1,0 +1,5 @@
+name: Statif Affine
+path: data/static-affine-benchmark.csv
+test_size: 25000
+input_columns: [u]
+output_columns: [y]
