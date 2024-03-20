@@ -1,0 +1,30 @@
+general:
+  project: test
+  n_runs: 3  # only valid for sweep
+  name: test
+training:
+  n_epochs: 10000
+  patience: 100
+  lr_patience: 20
+  timeout: "00:00:01:00"  # 10 minutes
+  batch_size: 256  # large batches by default
+  shift: 1
+  validation_size: 0.1
+model:
+  model_type: FSNN  # toggle between MLP, FMLP and FSNN
+  # settings depending on the dataset
+  n_input_time_steps: 128
+  n_output_time_steps: 1
+  n_input_state_variables: 1
+  n_output_state_variables: 1
+  # model hyperparameters
+  n_hidden_time_steps: 64
+  n_hidden_state_variables: 4
+  n_hidden_layers: 2
+  activation: gelu
+sweep:
+  name: <<SWEEP_NAME>>
+  method: grid  # toggle between grid and random
+  metric: {name: test/root_mean_squared_error, goal: minimize}
+sweep_parameters:
+  # add parameters to sweep here
