@@ -1,10 +1,14 @@
 from typing import Any
 
+import lightning.pytorch as pl
 import torch
 from torch.nn import Module
 
-from pydentification.models.modules.feedforward import TimeSeriesLinear
-from pydentification.models.networks.fsnn.model import FrequencyLinear, TimeFrequencyLinear
+import wandb
+
+from pydentification.models.modules.feedforward import TimeSeriesLinear  # isort:skip
+from pydentification.models.networks.fsnn.model import FrequencyLinear, TimeFrequencyLinear  # isort:skip
+from pydentification.training.lightning.simulation import LightningSimulationTrainingModule  # isort:skip
 
 
 def _build_activation(name: str, parameters: dict[str, Any]) -> Module:
@@ -86,11 +90,39 @@ def model_from_parameter(module: Module, parameters: dict[str, Any]) -> Module:
     return torch.nn.Sequential(*layers)
 
 
-def model_fn(parameters: dict[str, Any]) -> Module:
+def model_fn(
+    project_name: str, config: dict[str, Any], parameters: dict[str, Any]
+) -> tuple[pl.LightningModule, pl.Trainer]:
     module_mapping = {
         "MLP": TimeSeriesLinear,  # regular MLP for time-series
         "FMLP": FrequencyLinear,  # MLP using Fourier Transform
         "FSNN": TimeFrequencyLinear,  # MLP and FMLP merged into 2 branch network
     }
 
-    return model_from_parameter(module=module_mapping[parameters["model_type"]], parameters=parameters)
+    model = model_from_parameter(module=module_mapping[parameters["model_type"]], parameters=parameters)
+
+    optimizer = torch.optim.Adam(model.parameters())  # fixed initial LR
+    lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=config["lr_patience"], verbose=True)
+
+    timer = pl.callbacks.Timer(duration=config["timeout"], interval="epoch")
+    stopping = pl.callbacks.EarlyStopping(
+        monitor="training/validation_loss", patience=config["patience"], mode="min", verbose=True
+    )
+
+    path = f"models/{wandb.run.id}"
+
+    model = LightningSimulationTrainingModule(
+        model,
+        optimizer=optimizer,
+        lr_scheduler=lr_scheduler,
+    )
+
+    trainer = pl.Trainer(
+        max_epochs=config["n_epochs"],
+        accelerator="auto",  # use GPUs if available
+        default_root_dir=path,
+        callbacks=[timer, stopping],
+        logger=pl.loggers.WandbLogger(project=project_name),
+    )
+
+    return model, trainer
