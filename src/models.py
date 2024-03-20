@@ -2,9 +2,8 @@ from typing import Any
 
 import lightning.pytorch as pl
 import torch
-from torch.nn import Module
-
 import wandb
+from torch.nn import Module
 
 from pydentification.models.modules.feedforward import TimeSeriesLinear  # isort:skip
 from pydentification.models.networks.fsnn.model import FrequencyLinear, TimeFrequencyLinear  # isort:skip
