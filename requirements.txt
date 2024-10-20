@@ -3,3 +3,6 @@ pandas==2.0.3
 scikit-learn==1.3.0
 torch==2.1.0  # CPU only version
 lightning==2.1.0  # install after torch
+
+git+https://github.com/cyber-physical-systems-group/pydentification.git@v0.3.0  # our main library
+
