@@ -17,12 +17,13 @@ transferred functionalities from the old repository.
 | [https://github.com/kzajac97/frequency-supported-neural-networks](https://github.com/kzajac97/frequency-supported-neural-networks) | [Orthogonal Transforms in Neural Networks Amount to Effective Regularization (V1)](https://arxiv.org/abs/2305.06344v1)                        | Early version of the pre-print, uses different repository          |
 | v1.0-alpha                                                                                                                         | [Orthogonal Transforms in Neural Networks Amount to Effective Regularization (V2)](https://arxiv.org/abs/2305.06344)                          | Current version of the code, uses this repository and dependencies |
 | v1.0                                                                                                                               | [Orthogonal Transforms in Neural Networks Amount to Effective Regularization](https://link.springer.com/chapter/10.1007/978-3-031-61857-4_33) | Published version, uses this repository and dependencies           |
+| v1.1                                                                                                                               | [Orthogonal Transforms in Neural Networks Amount to Effective Regularization](https://link.springer.com/chapter/10.1007/978-3-031-61857-4_33) | Published version with upgraded depdendencies           |
 
 ## Dependencies
 
 We based our implementation on our core library, `pydentification`  (see: https://github.com/cyber-physical-systems-group/pydentification).
-Most of the feature is implemented in [`v0.1.0-alpha`](https://github.com/cyber-physical-systems-group/pydentification/releases/tag/v0.1.0-alpha) 
-and the [`v0.3.0`](https://github.com/cyber-physical-systems-group/pydentification/releases/tag/v0.3.0) version contains
+Most of the feature is implemented in early vesion [`v0.1.0-alpha`](https://github.com/cyber-physical-systems-group/pydentification/releases/tag/v0.1.0-alpha) 
+and the [`v0.4.2`](https://github.com/cyber-physical-systems-group/pydentification/releases/tag/v0.4.2) version contains
 the code for running the experiments (entrypoints etc.), experimentation code was implemented here and generalized and
 moved to main library.
 
