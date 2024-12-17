@@ -1,8 +1,8 @@
-numpy==1.25.1
-pandas==2.0.3
-scikit-learn==1.3.0
-torch==2.1.0  # CPU only version
-lightning==2.1.0  # install after torch
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+torch==2.4.0  # CPU only version
+lightning==2.4.0  # install after torch
 
 git+https://github.com/cyber-physical-systems-group/pydentification.git@v0.4.2  # our main library
 
